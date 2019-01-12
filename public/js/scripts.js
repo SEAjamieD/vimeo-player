@@ -1,7 +1,26 @@
 // alert(document.cookie);
 JvimData = {};
 const videoTitle = document.getElementById('video-title');
+const searchInput = document.getElementById('search-input');
 const resultsContainer = document.querySelector('#results-container ul');
+
+// utility
+// david walsh debounce - https://davidwalsh.name/javascript-debounce-function
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
 
 let options = {
   id: 59777392,
@@ -85,20 +104,21 @@ const displayVideoInfo = async (id) => {
   }
 }
 
-const getSearchedVideos = async () => {
+const getSearchedVideos = async (query) => {
   try {
-    return await axios.get(`api/search/skateboard`)
+    return await axios.get(`api/search/${query}`)
   } catch (error) {
     console.error(error)
   }
 }
 
-const displaySearchedVideos = async () => {
-  const searchResult = await getSearchedVideos();
+const displaySearchedVideos = async (query) => {
+  const searchResult = await getSearchedVideos(query);
 
   if (searchResult.data) {
     let videos = searchResult.data.data;
     let documentFragment = document.createDocumentFragment();
+    resultsContainer.innerHTML = "";
 
     for (var i = 0; i < videos.length; i++) {
       console.log(videos[i].name);
@@ -117,6 +137,20 @@ const displaySearchedVideos = async () => {
 }
 
 
+// resond to search
+const handleSearch = (e) => {
+  if (e.target.value.length > 0) {
+    displaySearchedVideos(e.target.value);
+  }
+}
+
+const debouncedSearch = debounce( (e) => {
+  handleSearch(e);
+}, 300);
+
 // make inital call
 displayVideoInfo('59777392');
-displaySearchedVideos();
+displaySearchedVideos('skateboard');
+
+
+searchInput.addEventListener('keyup', (e) => debouncedSearch(e) );
