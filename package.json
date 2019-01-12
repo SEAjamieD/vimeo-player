@@ -10,6 +10,7 @@
     "vimeo": "^2.1.1"
   },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "sass": "sass --watch ./public/css/fullstyles.scss ./public/css/styles.css"
   }
 }

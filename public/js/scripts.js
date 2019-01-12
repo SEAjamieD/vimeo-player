@@ -98,13 +98,21 @@ const displaySearchedVideos = async () => {
 
   if (searchResult.data) {
     let videos = searchResult.data.data;
-    for (var i = 0; i < videos.length; i++) {
-      console.log(videos[i]);
-      let li = document.createElement('li');
-      
+    let documentFragment = document.createDocumentFragment();
 
-      resultsContainer.appendChild(li);
+    for (var i = 0; i < videos.length; i++) {
+      console.log(videos[i].name);
+      let li = document.createElement('li');
+      let textDiv = document.createElement('div');
+      let title = document.createElement('h3');
+      title.innerText = videos[i].name;
+
+      textDiv.appendChild(title);
+      li.appendChild(textDiv);
+      documentFragment.appendChild(li);
     }
+
+    resultsContainer.appendChild(documentFragment);
   }
 }
 

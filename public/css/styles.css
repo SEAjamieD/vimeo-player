@@ -57,6 +57,10 @@ body {
   margin-top: 1em;
 }
 
+#results-container h3 {
+  color: black;
+}
+
 #results-container li:nth-child(1) {
   animation-delay: 0.1s;
 }
