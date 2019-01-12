@@ -101,6 +101,8 @@ const displaySearchedVideos = async () => {
     for (var i = 0; i < videos.length; i++) {
       console.log(videos[i]);
       let li = document.createElement('li');
+      
+
       resultsContainer.appendChild(li);
     }
   }

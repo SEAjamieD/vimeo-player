@@ -31,6 +31,8 @@ body {
   background: linear-gradient(to right, #182848, #4b6cb7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+
+/****** search styles ******/
 .search {
   display: flex;
   flex-direction: column;
@@ -38,6 +40,20 @@ body {
   max-width: 500px;
 }
 
+#results-container ul {
+  display: flex;
+  flex-direction: column;
+}
+
+#results-container li {
+  width: 100%;
+  padding: 1em;
+  background: white;
+}
+
+#results-container li + li {
+  margin-top: 1em;
+}
 
 
 @media screen and (min-width: 40em) {
