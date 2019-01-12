@@ -84,4 +84,23 @@ const displayVideoInfo = async (id) => {
   }
 }
 
+const getSearchedVideos = async () => {
+  try {
+    return await axios.get(`api/search/skateboard`)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const displaySearchedVideos = async () => {
+  const searchResult = await getSearchedVideos();
+
+  if (searchResult.data) {
+    console.log(searchResult.data);
+  }
+}
+
+
+// make iniital call
 displayVideoInfo('59777392');
+displaySearchedVideos();

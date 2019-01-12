@@ -6,6 +6,11 @@
 *, *:before, *:after {
   box-sizing: border-box;
   position: relative;
+  color: var(--primary-font);
+}
+
+input {
+  color: #000;
 }
 
 html, body {
@@ -25,6 +30,14 @@ body {
   background: -webkit-linear-gradient(to right, #182848, #4b6cb7);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #182848, #4b6cb7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
+.search {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  max-width: 500px;
+}
+
 
 
 @media screen and (min-width: 40em) {
