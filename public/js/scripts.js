@@ -71,9 +71,11 @@ window.addEventListener('beforeunload', (e) => {
 
 // calling the api
 axios({
-  url: 'localhost:5000/api/video-info',
+  url: 'api/video-info',
   method: 'get',
   data: {
     foo: 'bar'
   }
+}).then((response) => {
+  console.log(response.data);
 })
