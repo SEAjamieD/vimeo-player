@@ -16,10 +16,11 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 })
 
-app.get('/api/video-info', (req,res) => {
+app.get('/api/videos/:id', (req,res) => {
   console.log('video-info hit')
+  console.log(req.params.id);
   client.request({
-    path: '/videos/59777392',
+    path: `/videos/${req.params.id}`,
     query: {
       page: 1,
       per_page: 5,
