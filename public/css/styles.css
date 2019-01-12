@@ -14,7 +14,7 @@ html, body {
 }
 
 h1 {
-  font-size: 2em;
+  font-size: 1.5em;
   color: var(--primary-font);
 }
 
@@ -26,25 +26,23 @@ body {
   background: linear-gradient(to right, #182848, #4b6cb7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-#vimeo-slot {
-  position: relative;
-  overflow: hidden;
-  padding-top: 56.25%;
-}
-
-#vimeo-slot iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
 
 @media screen and (min-width: 40em) {
-  body {
-    background: red;
+  .app {
+    padding: 0 3em;
+  }
+
+  #vimeo-slot {
+    margin: 2em auto;
+  }
+
+}
+
+@media screen and (min-width: 62em) {
+  .app {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
 }
