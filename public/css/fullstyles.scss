@@ -49,6 +49,7 @@ body {
   width: 100%;
   padding: 1em;
   background: white;
+  cursor: pointer;
   animation: fade-in-up .5s ease backwards;
 }
 
@@ -58,6 +59,7 @@ body {
 
 #results-container h3 {
   color: black;
+  pointer-events: none;
 }
 
 @for $i from 1 through 5 {

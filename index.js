@@ -16,9 +16,9 @@ const client = new Vimeo(process.env.CLIENT_ID,
 // get info for single video
 app.get('/api/videos/:id', (req,res) => {
   console.log('video-info hit')
-  console.log(req.params.id);
+  console.log(req.params.idUri);
   client.request({
-    path: `/videos/${req.params.id}`,
+    path: `videos/${req.params.id}`,
     query: {
       page: 1,
       per_page: 5,

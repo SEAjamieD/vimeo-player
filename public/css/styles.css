@@ -50,6 +50,7 @@ body {
   width: 100%;
   padding: 1em;
   background: white;
+  cursor: pointer;
   animation: fade-in-up 0.5s ease backwards;
 }
 
@@ -59,6 +60,7 @@ body {
 
 #results-container h3 {
   color: black;
+  pointer-events: none;
 }
 
 #results-container li:nth-child(1) {

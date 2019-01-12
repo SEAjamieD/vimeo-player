@@ -121,7 +121,7 @@ const displaySearchedVideos = async (query) => {
     resultsContainer.innerHTML = "";
 
     for (var i = 0; i < videos.length; i++) {
-      console.log(videos[i].name);
+      console.log(videos[i]);
       let li = document.createElement('li');
       let textDiv = document.createElement('div');
       let title = document.createElement('h3');
@@ -129,6 +129,10 @@ const displaySearchedVideos = async (query) => {
 
       textDiv.appendChild(title);
       li.appendChild(textDiv);
+      let videoId = (videos[i].uri).split('/');
+      li.dataset.videoId = videoId[videoId.length-1];
+
+      li.addEventListener('click', handleVideoClick);
       documentFragment.appendChild(li);
     }
 
@@ -147,6 +151,13 @@ const handleSearch = (e) => {
 const debouncedSearch = debounce( (e) => {
   handleSearch(e);
 }, 300);
+
+//handle click on search result
+
+const handleVideoClick = (e) => {
+  let videoId = e.target.closest('li').dataset.videoId;
+  console.log(videoId);
+}
 
 // make inital call
 displayVideoInfo('59777392');
