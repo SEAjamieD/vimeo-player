@@ -29,12 +29,6 @@ let options = {
 
 const player = new Vimeo.Player('vimeo-slot', options);
 
-player.getVideoTitle().then(function(title) {
-    videoTitle.innerText = title;
-}).catch(function(error) {
-    // an error occurred
-});
-
 player.on('timeupdate', (data) => {
   JvimData.position = `${Math.round(data.percent * 100)}`; //store percentage in window object
   JvimData.seconds = data.seconds;
@@ -101,6 +95,37 @@ const displayVideoInfo = async (id) => {
 
   if (video.data) {
     console.log(video.data);
+    player.loadVideo(id).then(function(id) {
+      videoTitle.innerText = video.data.name;
+      console.log('video loaded');
+    }).catch(function(error) {
+      switch(error.name) {
+          case 'TypeError':
+            console.error(error);
+            break;
+
+          case 'Password Error':
+            // the video is password-protected and the viewer needs to enter the
+            // password first
+            break;
+
+          case 'PrivacyError':
+            // the video is password-protected or private
+            break;
+
+          default:
+            // some other error occurred
+            break;
+      }
+    });
+
+
+    // player.getVideoTitle().then(function(title) {
+    //     videoTitle.innerText = title;
+    // }).catch(function(error) {
+    //     // an error occurred
+    // });
+
   }
 }
 
@@ -156,7 +181,7 @@ const debouncedSearch = debounce( (e) => {
 
 const handleVideoClick = (e) => {
   let videoId = e.target.closest('li').dataset.videoId;
-  console.log(videoId);
+  displayVideoInfo(videoId);
 }
 
 // make inital call
