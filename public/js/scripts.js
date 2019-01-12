@@ -68,7 +68,7 @@ window.addEventListener('beforeunload', (e) => {
 
 
 // making API Calls
-const callVideo = async (id) => {
+const getVideoInfo = async (id) => {
   try {
     return await axios.get(`api/videos/${id}`)
   } catch (error) {
@@ -76,12 +76,12 @@ const callVideo = async (id) => {
   }
 }
 
-const displayVideo = async (id) => {
-  const video = await callVideo(id);
+const displayVideoInfo = async (id) => {
+  const video = await getVideoInfo(id);
 
   if (video.data) {
     console.log(video.data);
   }
 }
 
-displayVideo('59777392');
+displayVideoInfo('59777392');
