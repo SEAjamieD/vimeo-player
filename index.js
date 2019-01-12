@@ -40,21 +40,22 @@ app.get('/api/search/:query', (req,res) => {
   console.log('search hit')
   console.log(req.params.query);
 
-  // client.request({
-  //   path: `/videos/${req.params.id}`,
-  //   query: {
-  //     page: 1,
-  //     per_page: 5,
-  //     fields: 'uri,name,description,duration'
-  //   }
-  // }, function(error, body, status_code, headers) {
-  //   if (error) {
-  //     console.log(error);
-  //   } else {
-  //     console.log(body);
-  //     res.json(body);
-  //   }
-  // })
+  client.request({
+    path: `/videos`,
+    query: {
+      page: 1,
+      per_page: 5,
+      fields: 'uri,name,description,duration',
+      query: req.params.query
+    }
+  }, function(error, body, status_code, headers) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(body);
+      res.json(body);
+    }
+  })
 
 })
 

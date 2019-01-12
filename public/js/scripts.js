@@ -97,10 +97,11 @@ const displaySearchedVideos = async () => {
 
   if (searchResult.data) {
     console.log(searchResult.data);
+
   }
 }
 
 
 // make iniital call
 displayVideoInfo('59777392');
-displaySearchedVideos();
+// displaySearchedVideos();
