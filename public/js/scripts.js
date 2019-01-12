@@ -66,3 +66,14 @@ window.addEventListener('beforeunload', (e) => {
   twoWeeks = twoWeeks.toUTCString();
   document.cookie = `jVimSeconds=${JvimData.seconds}; expires=${twoWeeks}`;
 });
+
+
+
+// calling the api
+axios({
+  url: 'localhost:5000/api/video-info',
+  method: 'get',
+  data: {
+    foo: 'bar'
+  }
+})
