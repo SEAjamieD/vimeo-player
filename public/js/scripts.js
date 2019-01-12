@@ -10,7 +10,6 @@ let options = {
 const player = new Vimeo.Player('vimeo-slot', options);
 
 player.getVideoTitle().then(function(title) {
-    // title = the title of the video
     videoTitle.innerText = title;
 }).catch(function(error) {
     // an error occurred
@@ -68,14 +67,21 @@ window.addEventListener('beforeunload', (e) => {
 });
 
 
-
-// calling the api
-axios({
-  url: 'api/video-info',
-  method: 'get',
-  data: {
-    foo: 'bar'
+// making API Calls
+const callVideo = async () => {
+  try {
+    return await axios.get('api/video-info')
+  } catch (error) {
+    console.error(error)
   }
-}).then((response) => {
-  console.log(response.data);
-})
+}
+
+const displayVideo = async () => {
+  const video = await callVideo();
+
+  if (video.data) {
+    console.log(video.data);
+  }
+}
+
+displayVideo();
