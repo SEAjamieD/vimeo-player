@@ -5,7 +5,7 @@
 *, *:before, *:after {
   box-sizing: border-box;
   position: relative;
-  color: var(--primary-font);
+  color: black;
 }
 
 input {

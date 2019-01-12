@@ -1,6 +1,7 @@
 // alert(document.cookie);
 JvimData = {};
 const videoTitle = document.getElementById('video-title');
+const videoDescription = document.getElementById('video-description');
 const searchInput = document.getElementById('search-input');
 const resultsContainer = document.querySelector('#results-container ul');
 
@@ -97,6 +98,7 @@ const displayVideoInfo = async (id) => {
     console.log(video.data);
     player.loadVideo(id).then(function(id) {
       videoTitle.innerText = video.data.name;
+      videoDescription.innerText = video.data.description;
     }).catch(function(error) {
       switch(error.name) {
           case 'TypeError':
