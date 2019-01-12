@@ -3,7 +3,6 @@ JvimData = {};
 
 let options = {
   id: 59777392,
-  width: 460,
   loop: false
 };
 
