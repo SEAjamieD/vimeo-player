@@ -1,13 +1,20 @@
 // alert(document.cookie);
 JvimData = {};
+const videoTitle = document.getElementById('video-title');
 
 let options = {
   id: 59777392,
-  width: 460,
   loop: false
 };
 
 const player = new Vimeo.Player('vimeo-slot', options);
+
+player.getVideoTitle().then(function(title) {
+    // title = the title of the video
+    videoTitle.innerText = title;
+}).catch(function(error) {
+    // an error occurred
+});
 
 player.on('timeupdate', (data) => {
   JvimData.position = `${Math.round(data.percent * 100)}`; //store percentage in window object
