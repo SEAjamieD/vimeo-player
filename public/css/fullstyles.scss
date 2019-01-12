@@ -2,6 +2,7 @@
   --primary-font: #fff;
 }
 
+
 *, *:before, *:after {
   box-sizing: border-box;
   position: relative;
@@ -25,13 +26,11 @@ h1 {
 body {
   display: flex;
   flex-direction: column;
-  background: #4b6cb7;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #182848, #4b6cb7);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #182848, #4b6cb7);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #4b6cb7;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #182848, #4b6cb7);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #182848, #4b6cb7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
 
 /****** search styles ******/
 .search {
@@ -50,31 +49,17 @@ body {
   width: 100%;
   padding: 1em;
   background: white;
-  animation: fade-in-up 0.5s ease backwards;
+  animation: fade-in-up .5s ease backwards;
 }
 
 #results-container li + li {
   margin-top: 1em;
 }
 
-#results-container li:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-#results-container li:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-#results-container li:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-#results-container li:nth-child(4) {
-  animation-delay: 0.4s;
-}
-
-#results-container li:nth-child(5) {
-  animation-delay: 0.5s;
+@for $i from 1 through 5 {
+  #results-container li:nth-child(#{$i}) {
+    animation-delay: $i * .1s;
+  }
 }
 
 @keyframes fade-in-up {
@@ -83,6 +68,11 @@ body {
     transform: translateY(1em);
   }
 }
+
+
+
+
+
 @media screen and (min-width: 40em) {
   .app {
     padding: 0 3em;
@@ -91,13 +81,14 @@ body {
   #vimeo-slot {
     margin: 2em auto;
   }
+
 }
+
 @media screen and (min-width: 62em) {
   .app {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
   }
-}
 
-/*# sourceMappingURL=styles.css.map */
+}
