@@ -1,7 +1,7 @@
 // alert(document.cookie);
 JvimData = {};
 const videoTitle = document.getElementById('video-title');
-const resultsContainer = document.getElementById('results-container');
+const resultsContainer = document.querySelector('#results-container ul');
 
 let options = {
   id: 59777392,
