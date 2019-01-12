@@ -1,6 +1,7 @@
 // alert(document.cookie);
 JvimData = {};
 const videoTitle = document.getElementById('video-title');
+const resultsContainer = document.getElementById('results-container');
 
 let options = {
   id: 59777392,
@@ -96,12 +97,16 @@ const displaySearchedVideos = async () => {
   const searchResult = await getSearchedVideos();
 
   if (searchResult.data) {
-    console.log(searchResult.data);
-
+    let videos = searchResult.data.data;
+    for (var i = 0; i < videos.length; i++) {
+      console.log(videos[i]);
+      let li = document.createElement('li');
+      resultsContainer.appendChild(li);
+    }
   }
 }
 
 
-// make iniital call
+// make inital call
 displayVideoInfo('59777392');
-// displaySearchedVideos();
+displaySearchedVideos();
