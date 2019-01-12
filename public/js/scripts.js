@@ -97,7 +97,6 @@ const displayVideoInfo = async (id) => {
     console.log(video.data);
     player.loadVideo(id).then(function(id) {
       videoTitle.innerText = video.data.name;
-      console.log('video loaded');
     }).catch(function(error) {
       switch(error.name) {
           case 'TypeError':
@@ -105,26 +104,20 @@ const displayVideoInfo = async (id) => {
             break;
 
           case 'Password Error':
-            // the video is password-protected and the viewer needs to enter the
-            // password first
+            console.error(error);
             break;
 
           case 'PrivacyError':
             // the video is password-protected or private
+            console.error(error);
             break;
 
           default:
             // some other error occurred
+            console.error(error);
             break;
       }
     });
-
-
-    // player.getVideoTitle().then(function(title) {
-    //     videoTitle.innerText = title;
-    // }).catch(function(error) {
-    //     // an error occurred
-    // });
 
   }
 }
