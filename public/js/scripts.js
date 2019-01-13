@@ -1,5 +1,8 @@
-alert(document.cookie);
+console.log(document.cookie);
+
 JvimData = {};
+
+
 const videoTitle = document.getElementById('video-title');
 const videoDescription = document.getElementById('video-description');
 const searchInput = document.getElementById('search-input');
@@ -47,8 +50,9 @@ const getCookieVideo = () => {
   let video = 59777392;
   if ( document.cookie.split(';').filter((item) => item.includes('jVimVideo=')).length ) {
     video = document.cookie.replace(/(?:(?:^|.*;\s*)jVimVideo\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    if (video !== "undefined") {
+    if (video !== 'undefined') {
       video = video;
+
     } else {
       video = 59777392;
     }
@@ -56,6 +60,11 @@ const getCookieVideo = () => {
 
   return video;
 }
+
+JvimData.seconds = getCookieSeconds() || 0;
+JvimData.video = getCookieVideo();
+
+console.log(JvimData);
 
 
 const setVimeoPosition = (seconds) => {
@@ -81,10 +90,14 @@ let options = {
 };
 
 const loadPlayer = async (options) => {
+	console.log('load player')
 	const video = await getVideoInfo(options.id);
+	JvimData.video = options.id;
+	setCookie('jVimVideo', JvimData.video);
 		if (video.data) {
 			videoTitle.innerText = video.data.name;
 			videoDescription.innerText = video.data.description;
+
 		} else {
 			// handle error
 		}
@@ -92,13 +105,10 @@ const loadPlayer = async (options) => {
 
 
 
-
-
 //Listening for the browser window closing and set cookie 14 expiring in 14 days
 window.addEventListener('beforeunload', (e) => {
   e.preventDefault();
-	setCookie('jVimSeconds', JvimData.seconds);
-	setCookie('jVimVideo', JvimData.video);
+
 });
 
 
@@ -116,8 +126,9 @@ const displayVideoInfo = async (id) => {
   const video = await getVideoInfo(id);
 
   if (video.data) {
-    JvimData.video = id;
-    console.log(video.data);
+		JvimData.video = id;
+		setCookie('jVimVideo', JvimData.video);
+
     player.loadVideo(id).then(function(id) {
       videoTitle.innerText = video.data.name;
       videoDescription.innerText = video.data.description;
@@ -167,7 +178,7 @@ const displaySearchedVideos = async (query) => {
     resultsContainer.innerHTML = "";
 
     for (var i = 0; i < videos.length; i++) {
-      console.log(videos[i]);
+
       let li = document.createElement('li');
       let textDiv = document.createElement('div');
 			textDiv.setAttribute('class', 'title-container');
