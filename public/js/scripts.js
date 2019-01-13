@@ -214,7 +214,7 @@ const handleVideoClick = (e) => {
 
 
 
-// active search bar
+// search bar
 const activateSearch = () => {
 	searchInput.classList.toggle('active');
 	searchInput.focus();

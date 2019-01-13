@@ -26,6 +26,14 @@ h1 {
   color: var(--primary-font);
 }
 
+h2 {
+  font-size: 1.25em;
+}
+
+h3 {
+  font-size: 1.1em;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -35,11 +43,14 @@ body {
 
 #vimeo-slot {
   border-radius: 0 0 10px 10px;
-  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.25);
 }
 
 .card {
   border: none;
+}
+
+.card-body {
+  margin-bottom: 2em;
 }
 
 /****** search styles ******/
