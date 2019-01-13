@@ -108,7 +108,8 @@ const loadPlayer = async (options) => {
 //Listening for the browser window closing and set cookie 14 expiring in 14 days
 window.addEventListener('beforeunload', (e) => {
   e.preventDefault();
-
+	setCookie('jVimVideo', JvimData.video);
+	
 });
 
 
