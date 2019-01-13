@@ -15,8 +15,6 @@ const client = new Vimeo(process.env.CLIENT_ID,
 
 // get info for single video
 app.get('/api/videos/:id', (req,res) => {
-  console.log('video-info hit')
-  console.log(req.params.idUri);
   client.request({
     path: `videos/${req.params.id}`,
     query: {
@@ -28,7 +26,6 @@ app.get('/api/videos/:id', (req,res) => {
     if (error) {
       console.log(error);
     } else {
-      console.log(body);
       res.json(body);
     }
   })
@@ -37,9 +34,6 @@ app.get('/api/videos/:id', (req,res) => {
 
 // get videos from search
 app.get('/api/search/:query', (req,res) => {
-  console.log('search hit')
-  console.log(req.params.query);
-
   client.request({
     path: `/videos`,
     query: {
@@ -52,7 +46,6 @@ app.get('/api/search/:query', (req,res) => {
     if (error) {
       console.log(error);
     } else {
-      console.log(body);
       res.json(body);
     }
   })
