@@ -1,4 +1,4 @@
-// alert(document.cookie);
+alert(document.cookie);
 JvimData = {};
 const videoTitle = document.getElementById('video-title');
 const videoDescription = document.getElementById('video-description');
@@ -22,6 +22,13 @@ function debounce(func, wait, immediate) {
 	};
 };
 
+// set cookies
+const setCookie = (name, value) => {
+	let today = new Date();
+	let twoWeeks = new Date(Date.now() + 12096e5);
+	twoWeeks = twoWeeks.toUTCString();
+	document.cookie = `${name}=${value}; expires=${twoWeeks};`
+}
 
 
 //Check for existing time set cookie and set the player to that time
@@ -79,7 +86,7 @@ const loadPlayer = async (options) => {
 			videoTitle.innerText = video.data.name;
 			videoDescription.innerText = video.data.description;
 		} else {
-			// handle error 
+			// handle error
 		}
 }
 
@@ -90,11 +97,8 @@ const loadPlayer = async (options) => {
 //Listening for the browser window closing and set cookie 14 expiring in 14 days
 window.addEventListener('beforeunload', (e) => {
   e.preventDefault();
-  let today = new Date();
-  let twoWeeks = new Date(Date.now() + 12096e5);
-  twoWeeks = twoWeeks.toUTCString();
-  document.cookie = `jVimSeconds=${JvimData.seconds}; expires=${twoWeeks}`;
-  document.cookie = `jVimVideo=${JvimData.video}; expires=${twoWeeks}`;
+	setCookie('jVimSeconds', JvimData.seconds);
+	setCookie('jVimVideo', JvimData.video);
 });
 
 
