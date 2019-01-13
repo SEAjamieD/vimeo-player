@@ -175,13 +175,25 @@ const displaySearchedVideos = async (query) => {
       console.log(videos[i]);
       let li = document.createElement('li');
       let textDiv = document.createElement('div');
+			textDiv.setAttribute('class', 'title-container');
+			
       let title = document.createElement('h3');
       title.innerText = videos[i].name;
+			textDiv.appendChild(title);
 
-      textDiv.appendChild(title);
+			let videoId = (videos[i].uri).split('/');
+			videoId = videoId[videoId.length-1]
+			li.dataset.videoId = videoId;
+
+			let imgContainer = document.createElement('div');
+			imgContainer.setAttribute('class', 'video-thumb');
+
+			let img = new Image();
+			img.src = `https://i.vimeocdn.com/video/${videoId}_100x75.jpg?r=pad`;
+			imgContainer.appendChild(img);
+
+			li.appendChild(imgContainer);
       li.appendChild(textDiv);
-      let videoId = (videos[i].uri).split('/');
-      li.dataset.videoId = videoId[videoId.length-1];
 
       li.addEventListener('click', handleVideoClick);
       documentFragment.appendChild(li);
