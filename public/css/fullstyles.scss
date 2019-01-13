@@ -1,6 +1,6 @@
 :root {
-  --primary-font: #fff;
-  --background: #fff;
+  --primary-font: #4914f4;
+  --background: #96ebeb;
 }
 
 
@@ -22,7 +22,7 @@ html, body {
 
 h1 {
   font-size: 1.5em;
-  color: #333;
+  color: var(--primary-font);
 }
 
 body {
@@ -36,13 +36,43 @@ body {
   box-shadow: 0 0 1em 0 rgba(0,0,0,.25);
 }
 
+// accordion
+.card {
+  border: none;
+}
 
 /****** search styles ******/
 .search {
   display: flex;
-  flex-direction: column;
-  width: 50%;
+  width: 100%;
   max-width: 500px;
+}
+
+.logo {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.fa-search {
+  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input {
+  flex-grow: 1;
+  font-size: 1.5em;
+  transform: scale3d(0,1,1);
+  transform-origin: right;
+  transition: transform .35s ease;
+}
+
+.search-input.active {
+  transform: scale3d(1,1,1);
 }
 
 #results-container ul {

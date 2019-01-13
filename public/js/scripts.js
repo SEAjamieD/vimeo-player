@@ -207,8 +207,26 @@ const debouncedSearch = debounce( (e) => {
 
 const handleVideoClick = (e) => {
   let videoId = e.target.closest('li').dataset.videoId;
+	deactivateSearch();
   displayVideoInfo(videoId);
 }
+
+
+
+
+// active search bar
+const activateSearch = () => {
+	searchInput.classList.toggle('active');
+	searchInput.focus();
+}
+
+const deactivateSearch = () => {
+	searchInput.classList.remove('active');
+	searchInput.value = "";
+}
+
+const searchButton = document.querySelector('.fa-search');
+searchButton.addEventListener('click', activateSearch);
 
 
 searchInput.addEventListener('keyup', (e) => debouncedSearch(e) );
