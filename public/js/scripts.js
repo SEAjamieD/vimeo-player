@@ -72,23 +72,16 @@ let options = {
   id: getCookieVideo(),
   loop: false
 };
-const player = new Vimeo.Player('vimeo-slot', options);
 
-// run setup on window load after iframes are populated
-window.addEventListener('load', (e) => {
-  displaySearchedVideos('seattle')
-});
-
-
-
-player.on('timeupdate', (data) => {
-  JvimData.position = `${Math.round(data.percent * 100)}`; //store percentage in window object
-  JvimData.seconds = data.seconds;
-})
-
-player.on('ended', () => {
-  alert('The video has ended - thanks for watching!');
-});
+const loadPlayer = async (options) => {
+	const video = await getVideoInfo(options.id);
+		if (video.data) {
+			videoTitle.innerText = video.data.name;
+			videoDescription.innerText = video.data.description;
+		} else {
+			// handle error 
+		}
+}
 
 
 
@@ -124,11 +117,9 @@ const displayVideoInfo = async (id) => {
     player.loadVideo(id).then(function(id) {
       videoTitle.innerText = video.data.name;
       videoDescription.innerText = video.data.description;
-      console.log(video.data.description);
 
       let currentVidTime = getCookieSeconds();
       setVimeoPosition(currentVidTime);
-
 
     }).catch(function(error) {
       switch(error.name) {
@@ -176,7 +167,7 @@ const displaySearchedVideos = async (query) => {
       let li = document.createElement('li');
       let textDiv = document.createElement('div');
 			textDiv.setAttribute('class', 'title-container');
-			
+
       let title = document.createElement('h3');
       title.innerText = videos[i].name;
 			textDiv.appendChild(title);
@@ -216,14 +207,11 @@ const debouncedSearch = debounce( (e) => {
 }, 300);
 
 //handle click on search result
-
 const handleVideoClick = (e) => {
   let videoId = e.target.closest('li').dataset.videoId;
 	deactivateSearch();
   displayVideoInfo(videoId);
 }
-
-
 
 
 // search bar
@@ -240,5 +228,22 @@ const deactivateSearch = () => {
 const searchButton = document.querySelector('.fa-search');
 searchButton.addEventListener('click', activateSearch);
 
-
 searchInput.addEventListener('keyup', (e) => debouncedSearch(e) );
+
+
+// run iniital setup on window load after iframes are populated
+const player = new Vimeo.Player('vimeo-slot', options);
+window.addEventListener('load', (e) => {
+	loadPlayer(options);
+  displaySearchedVideos('seattle')
+});
+
+
+player.on('timeupdate', (data) => {
+  JvimData.position = `${Math.round(data.percent * 100)}`; //store percentage in window object
+  JvimData.seconds = data.seconds;
+})
+
+player.on('ended', () => {
+  alert('The video has ended - thanks for watching!');
+});
