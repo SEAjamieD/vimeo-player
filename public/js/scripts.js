@@ -1,4 +1,3 @@
-console.log(document.cookie);
 
 JvimData = {};
 
@@ -64,9 +63,6 @@ const getCookieVideo = () => {
 JvimData.seconds = getCookieSeconds();
 JvimData.video = getCookieVideo();
 
-console.log(JvimData);
-
-
 const setVimeoPosition = (seconds) => {
   player.setCurrentTime(seconds).then( (s) => {
 
@@ -90,7 +86,7 @@ let options = {
 };
 
 const loadPlayer = async (options) => {
-	console.log('load player')
+
 	const video = await getVideoInfo(options.id);
 	JvimData.video = options.id;
 	setCookie('jVimVideo', JvimData.video);
@@ -226,6 +222,10 @@ const debouncedSearch = debounce( (e) => {
 //handle click on search result
 const handleVideoClick = (e) => {
   let videoId = e.target.closest('li').dataset.videoId;
+	//reset cookie time on new video
+	JvimData.seconds = 0;
+	setCookie('jVimSeconds', JvimData.seconds);
+	
 	deactivateSearch();
   displayVideoInfo(videoId);
 }
