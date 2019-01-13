@@ -45,7 +45,7 @@ const getCookieSeconds = () => {
   return seconds;
 }
 
-//Check for existing time set cookie and set the player to that time
+//Check for existing video id set cookie and set the player to that video
 const getCookieVideo = () => {
   let video = 59777392;
   if ( document.cookie.split(';').filter((item) => item.includes('jVimVideo=')).length ) {
@@ -61,7 +61,7 @@ const getCookieVideo = () => {
   return video;
 }
 
-JvimData.seconds = getCookieSeconds() || 0;
+JvimData.seconds = getCookieSeconds();
 JvimData.video = getCookieVideo();
 
 console.log(JvimData);
@@ -109,7 +109,7 @@ const loadPlayer = async (options) => {
 window.addEventListener('beforeunload', (e) => {
   e.preventDefault();
 	setCookie('jVimVideo', JvimData.video);
-	
+	setCookie('jVimSeconds', JvimData.seconds);
 });
 
 
@@ -258,6 +258,7 @@ window.addEventListener('load', (e) => {
 player.on('timeupdate', (data) => {
   JvimData.position = `${Math.round(data.percent * 100)}`; //store percentage in window object
   JvimData.seconds = data.seconds;
+	setCookie('jVimSeconds', data.seconds);
 })
 
 player.on('ended', () => {
