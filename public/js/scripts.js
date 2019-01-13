@@ -23,21 +23,33 @@ function debounce(func, wait, immediate) {
 };
 
 
-let options = {
-  id: 59777392,
-  loop: false
-};
 
-const player = new Vimeo.Player('vimeo-slot', options);
+//Check for existing time set cookie and set the player to that time
+const getCookieSeconds = () => {
+  let seconds = 0;
+  if ( document.cookie.split(';').filter((item) => item.includes('jVimSeconds=')).length ) {
+    seconds = document.cookie.replace(/(?:(?:^|.*;\s*)jVimSeconds\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    seconds = seconds >= 0 ? seconds : 0;
+  }
 
-player.on('timeupdate', (data) => {
-  JvimData.position = `${Math.round(data.percent * 100)}`; //store percentage in window object
-  JvimData.seconds = data.seconds;
-})
+  return seconds;
+}
 
-player.on('ended', () => {
-  alert('The video has ended - thanks for watching!');
-});
+//Check for existing time set cookie and set the player to that time
+const getCookieVideo = () => {
+  let video = 59777392;
+  if ( document.cookie.split(';').filter((item) => item.includes('jVimVideo=')).length ) {
+    video = document.cookie.replace(/(?:(?:^|.*;\s*)jVimVideo\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    if (video !== "undefined") {
+      video = video;
+    } else {
+      video = 59777392;
+    }
+  }
+
+  return video;
+}
+
 
 const setVimeoPosition = (seconds) => {
   player.setCurrentTime(seconds).then( (s) => {
@@ -55,22 +67,32 @@ const setVimeoPosition = (seconds) => {
   });
 }
 
-//Check for existing time set cookie and set the player to that time
-const getCookieSeconds = () => {
-  let seconds = 0;
-  if ( document.cookie.split(';').filter((item) => item.includes('jVimSeconds=')).length ) {
-    seconds = document.cookie.replace(/(?:(?:^|.*;\s*)jVimSeconds\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    seconds = seconds >= 0 ? seconds : 0;
-  }
+// make inital call
+let options = {
+  id: getCookieVideo(),
+  loop: false
+};
+const player = new Vimeo.Player('vimeo-slot', options);
 
-  return seconds;
-}
-
-//run setup on window load after iframes are populated
+// run setup on window load after iframes are populated
 window.addEventListener('load', (e) => {
-  let currentVidTime = getCookieSeconds();
-  setVimeoPosition(currentVidTime);
+  displaySearchedVideos('seattle')
 });
+
+
+
+player.on('timeupdate', (data) => {
+  JvimData.position = `${Math.round(data.percent * 100)}`; //store percentage in window object
+  JvimData.seconds = data.seconds;
+})
+
+player.on('ended', () => {
+  alert('The video has ended - thanks for watching!');
+});
+
+
+
+
 
 //Listening for the browser window closing and set cookie 14 expiring in 14 days
 window.addEventListener('beforeunload', (e) => {
@@ -79,6 +101,7 @@ window.addEventListener('beforeunload', (e) => {
   let twoWeeks = new Date(Date.now() + 12096e5);
   twoWeeks = twoWeeks.toUTCString();
   document.cookie = `jVimSeconds=${JvimData.seconds}; expires=${twoWeeks}`;
+  document.cookie = `jVimVideo=${JvimData.video}; expires=${twoWeeks}`;
 });
 
 
@@ -92,13 +115,21 @@ const getVideoInfo = async (id) => {
 }
 
 const displayVideoInfo = async (id) => {
+
   const video = await getVideoInfo(id);
 
   if (video.data) {
+    JvimData.video = id;
     console.log(video.data);
     player.loadVideo(id).then(function(id) {
       videoTitle.innerText = video.data.name;
       videoDescription.innerText = video.data.description;
+      console.log(video.data.description);
+
+      let currentVidTime = getCookieSeconds();
+      setVimeoPosition(currentVidTime);
+
+
     }).catch(function(error) {
       switch(error.name) {
           case 'TypeError':
@@ -178,10 +209,6 @@ const handleVideoClick = (e) => {
   let videoId = e.target.closest('li').dataset.videoId;
   displayVideoInfo(videoId);
 }
-
-// make inital call
-displayVideoInfo('59777392');
-displaySearchedVideos('skateboard');
 
 
 searchInput.addEventListener('keyup', (e) => debouncedSearch(e) );
