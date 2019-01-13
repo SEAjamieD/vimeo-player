@@ -65,6 +65,6 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 })
 
-
-app.listen('5000');
-console.log('Listening on 5000');
+const port = process.env.PORT || 5000;
+app.listen(port);
+console.log(`Server listening on ${port}`);
