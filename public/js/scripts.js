@@ -98,6 +98,10 @@ const loadPlayer = async (options) => {
 			videoTitle.innerText = video.data.name;
 			videoDescription.innerText = video.data.description;
 
+			//update video to cookie time if exists
+			let currentVidTime = getCookieSeconds();
+			setVimeoPosition(currentVidTime);
+
 		} else {
 			// handle error
 		}
@@ -133,9 +137,6 @@ const displayVideoInfo = async (id) => {
     player.loadVideo(id).then(function(id) {
       videoTitle.innerText = video.data.name;
       videoDescription.innerText = video.data.description;
-
-      let currentVidTime = getCookieSeconds();
-      setVimeoPosition(currentVidTime);
 
     }).catch(function(error) {
       switch(error.name) {
@@ -255,10 +256,10 @@ window.addEventListener('load', (e) => {
 });
 
 
+// update global object for seconds watched
 player.on('timeupdate', (data) => {
   JvimData.position = `${Math.round(data.percent * 100)}`; //store percentage in window object
   JvimData.seconds = data.seconds;
-	setCookie('jVimSeconds', data.seconds);
 })
 
 player.on('ended', () => {
