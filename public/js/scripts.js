@@ -263,9 +263,12 @@ const toggleSearch = () => {
 }
 
 
+//
+//  Event Listeners
+//
+
 searchButton.addEventListener('click', toggleSearch);
 searchInput.addEventListener('keyup', (e) => debouncedSearch(e) );
-
 
 // Window Listening for a load/refresh
 window.addEventListener('load', (e) => {
