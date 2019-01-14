@@ -222,6 +222,7 @@ const displaySearchedVideos = async (query) => {
 
 			let img = new Image();
 			img.src = `https://i.vimeocdn.com/video/${videoId}_100x75.jpg?r=pad`;
+			img.alt = 'video thumbnail';
 			imgContainer.appendChild(img);
 
 			li.appendChild(imgContainer);
