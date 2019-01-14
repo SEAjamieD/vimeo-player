@@ -179,8 +179,7 @@ input {
   background: #e0d7fd;
 }
 #results-container .video-thumb {
-  min-height: 75px;
-  max-height: 75px;
+  height: 75px;
 }
 #results-container .video-thumb img {
   max-width: 100%;

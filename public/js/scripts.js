@@ -227,7 +227,7 @@ const displaySearchedVideos = async (query) => {
 			    img.src = response.data.thumbnail_url;
 			  })
 			  .catch(function (error) {
-			    img.src=""
+			    img.src="https://i.vimeocdn.com/video/000000000_100x75.jpg"
 			  });
 
 			imgContainer.appendChild(img);
