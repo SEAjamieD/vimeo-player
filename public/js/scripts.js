@@ -48,6 +48,14 @@ const utility = {
 	    }
 	  }
 	  return video;
+	},
+
+	scrollToTop: () => {
+		window.scroll({
+		  top: 0,
+		  left: 0,
+		  behavior: 'smooth'
+		});
 	}
 
 }
@@ -59,6 +67,7 @@ const utility = {
 //
 
 // Grab elements we need from our index.html
+const vimeoSlot = document.getElementById('vimeo-slot');
 const videoTitle = document.getElementById('video-title');
 const videoDescription = document.getElementById('video-description');
 const descriptionCard = document.getElementById('description');
@@ -249,6 +258,7 @@ const handleVideoClick = (e) => {
 	JvimData.seconds = 0;
 	utility.setCookie('jVimSeconds', JvimData.seconds);
 	deactivateSearch();
+	utility.scrollToTop();
   displayVideo(videoId);
 }
 
