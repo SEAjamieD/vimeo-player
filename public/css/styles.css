@@ -8,17 +8,19 @@
 *, *:before, *:after {
   box-sizing: border-box;
   position: relative;
-  color: black;
-}
-
-input {
-  color: #000;
 }
 
 html, body {
   width: 100%;
   height: 100%;
   background: var(--background);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  font-family: var(--main-font);
 }
 
 h1 {
@@ -34,15 +36,16 @@ h3 {
   font-size: 1.1em;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  background: var(--background);
-  font-family: var(--main-font);
+input {
+  border-radius: 0;
+}
+
+::-webkit-input-placeholder {
+  font-style: italic;
 }
 
 #vimeo-slot {
-  border-radius: 0 0 10px 10px;
+  border-radius: 0;
 }
 
 .card {
@@ -58,8 +61,7 @@ body {
   display: flex;
   width: 100%;
 }
-
-.logo {
+.search .logo {
   position: absolute;
   height: 100%;
   width: 50%;
@@ -68,24 +70,23 @@ body {
   font-family: "Staatliches", cursive;
   color: var(--primary-font);
 }
-
-.fa-search {
-  width: 10%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.search-input {
+.search .search-input {
   flex-grow: 1;
   font-size: 1.5em;
+  padding-left: 0.5em;
   transform: scale3d(0, 1, 1);
   transform-origin: right;
   transition: transform 0.35s ease;
 }
-
-.search-input.active {
+.search .search-input.active {
   transform: scale3d(1, 1, 1);
+}
+.search .fa-search {
+  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 #results-container ul {
