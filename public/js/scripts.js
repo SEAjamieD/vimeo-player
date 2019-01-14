@@ -225,13 +225,13 @@ const handleVideoClick = (e) => {
 	//reset cookie time on new video
 	JvimData.seconds = 0;
 	setCookie('jVimSeconds', JvimData.seconds);
-	
+
 	deactivateSearch();
   displayVideoInfo(videoId);
 }
 
 
-// search bar
+// search bar activation
 const activateSearch = () => {
 	searchInput.classList.toggle('active');
 	searchInput.focus();
@@ -240,11 +240,17 @@ const activateSearch = () => {
 const deactivateSearch = () => {
 	searchInput.classList.remove('active');
 	searchInput.value = "";
+	searchInput.blur();
+}
+
+const toggleSearch = () => {
+	searchInput.classList.contains('active')
+		? deactivateSearch()
+		: activateSearch();
 }
 
 const searchButton = document.querySelector('.fa-search');
-searchButton.addEventListener('click', activateSearch);
-
+searchButton.addEventListener('click', toggleSearch);
 searchInput.addEventListener('keyup', (e) => debouncedSearch(e) );
 
 
