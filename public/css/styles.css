@@ -166,8 +166,9 @@ input {
 /*         search list styles          */
 /*-------------------------------------*/
 #results-container ul {
-  display: flex;
   flex-direction: column;
+  max-height: 375px;
+  overflow-y: scroll;
 }
 #results-container li {
   width: 100%;

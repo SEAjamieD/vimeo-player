@@ -18,8 +18,6 @@ app.get('/api/videos/:id', (req,res) => {
   client.request({
     path: `videos/${req.params.id}`,
     query: {
-      page: 1,
-      per_page: 5,
       fields: 'uri,name,description,duration'
     }
   }, function(error, body, status_code, headers) {
@@ -38,7 +36,7 @@ app.get('/api/search/:query', (req,res) => {
     path: `/videos`,
     query: {
       page: 1,
-      per_page: 5,
+      per_page: 10,
       fields: 'uri,name,description,duration',
       query: req.params.query
     }
