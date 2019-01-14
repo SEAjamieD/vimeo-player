@@ -1,12 +1,4 @@
 
-JvimData = {};
-
-
-const videoTitle = document.getElementById('video-title');
-const videoDescription = document.getElementById('video-description');
-const searchInput = document.getElementById('search-input');
-const resultsContainer = document.querySelector('#results-container ul');
-
 //
 //  UTILITY FUNCTIONS
 //
@@ -43,7 +35,6 @@ const getCookieSeconds = () => {
     seconds = document.cookie.replace(/(?:(?:^|.*;\s*)jVimSeconds\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     seconds = seconds >= 0 ? seconds : 0;
   }
-
   return seconds;
 }
 
@@ -54,18 +45,50 @@ const getCookieVideo = () => {
     video = document.cookie.replace(/(?:(?:^|.*;\s*)jVimVideo\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     if (video !== 'undefined') {
       video = video;
-
     } else {
       video = 59777392;
     }
   }
-
   return video;
 }
 
-JvimData.seconds = getCookieSeconds();
-JvimData.video = getCookieVideo();
 
+//
+//  App Scripts
+//
+
+// Grab elements we need from our index.html
+const videoTitle = document.getElementById('video-title');
+const videoDescription = document.getElementById('video-description');
+const searchInput = document.getElementById('search-input');
+const resultsContainer = document.querySelector('#results-container ul');
+const searchButton = document.querySelector('.fa-search');
+
+
+// establish a global object for our app
+JvimData = {
+	seconds: getCookieSeconds(),
+	video: getCookieVideo(),
+	options: {
+	  id: getCookieVideo(),
+	  loop: false
+	}
+};
+
+// Create and embed the video iframe
+const player = new Vimeo.Player('vimeo-slot', JvimData.options);
+
+// update global object for seconds watched
+player.on('timeupdate', (data) => {
+  JvimData.seconds = data.seconds;
+})
+
+// alert when video is finished
+player.on('ended', () => {
+  alert('The video has ended - thanks for watching!');
+});
+
+// set the video position
 const setVimeoPosition = (seconds) => {
   player.setCurrentTime(seconds).then( (s) => {
 
@@ -82,33 +105,20 @@ const setVimeoPosition = (seconds) => {
   });
 }
 
-// make initial call
-let options = {
-  id: getCookieVideo(),
-  loop: false
-};
-
+// Initial load of player for first visit or refreshes
 const loadPlayer = async (options) => {
-
-	const video = await getVideoInfo(options.id);
-	// JvimData.video = options.id;
-	setCookie('jVimVideo', options.id);
+	const video = await getVideoInfo(JvimData.options.id);
+	setCookie('jVimVideo', JvimData.options.id);
 		if (video.data) {
 			videoTitle.innerText = video.data.name;
 			videoDescription.innerText = video.data.description;
-
 			//update video to cookie time if exists
 			let currentVidTime = getCookieSeconds();
 			setVimeoPosition(currentVidTime);
-
 		} else {
 			// handle error
 		}
 }
-
-
-
-
 
 
 //
@@ -228,8 +238,8 @@ const debouncedSearch = debounce( (e) => {
 const handleVideoClick = (e) => {
   let videoId = e.target.closest('li').dataset.videoId;
 	//reset cookie time on new video
-	// JvimData.seconds = 0;
-	setCookie('jVimSeconds', 0);
+	JvimData.seconds = 0;
+	setCookie('jVimSeconds', JvimData.seconds);
 	deactivateSearch();
   displayVideoInfo(videoId);
 }
@@ -251,34 +261,20 @@ const toggleSearch = () => {
 		: activateSearch();
 }
 
-const searchButton = document.querySelector('.fa-search');
+
 searchButton.addEventListener('click', toggleSearch);
 searchInput.addEventListener('keyup', (e) => debouncedSearch(e) );
 
 
-//
-//  INITIAL SETUP FOR NEW WINDOW LOAD
-//
-
-const player = new Vimeo.Player('vimeo-slot', options);
+// Window Listening for a load/refresh
 window.addEventListener('load', (e) => {
-	loadPlayer(options);
+	loadPlayer(JvimData.options);
   displaySearchedVideos('seattle')
 });
 
-//Listening for the browser window closing and set cookie 14 expiring in 14 days
+//Listening for the browser window closing and set cookies
 window.addEventListener('beforeunload', (e) => {
   e.preventDefault();
 	setCookie('jVimVideo', JvimData.video);
 	setCookie('jVimSeconds', JvimData.seconds);
-});
-
-// update global object for seconds watched
-player.on('timeupdate', (data) => {
-  JvimData.position = `${Math.round(data.percent * 100)}`; //store percentage in window object
-  JvimData.seconds = data.seconds;
-})
-
-player.on('ended', () => {
-  alert('The video has ended - thanks for watching!');
 });
