@@ -7,7 +7,10 @@ const videoDescription = document.getElementById('video-description');
 const searchInput = document.getElementById('search-input');
 const resultsContainer = document.querySelector('#results-container ul');
 
-// utility
+//
+//  UTILITY FUNCTIONS
+//
+
 // david walsh debounce - https://davidwalsh.name/javascript-debounce-function
 function debounce(func, wait, immediate) {
 	var timeout;
@@ -79,7 +82,7 @@ const setVimeoPosition = (seconds) => {
   });
 }
 
-// make inital call
+// make initial call
 let options = {
   id: getCookieVideo(),
   loop: false
@@ -88,8 +91,8 @@ let options = {
 const loadPlayer = async (options) => {
 
 	const video = await getVideoInfo(options.id);
-	JvimData.video = options.id;
-	setCookie('jVimVideo', JvimData.video);
+	// JvimData.video = options.id;
+	setCookie('jVimVideo', options.id);
 		if (video.data) {
 			videoTitle.innerText = video.data.name;
 			videoDescription.innerText = video.data.description;
@@ -105,15 +108,13 @@ const loadPlayer = async (options) => {
 
 
 
-//Listening for the browser window closing and set cookie 14 expiring in 14 days
-window.addEventListener('beforeunload', (e) => {
-  e.preventDefault();
-	setCookie('jVimVideo', JvimData.video);
-	setCookie('jVimSeconds', JvimData.seconds);
-});
 
 
-// making API Calls
+
+//
+//  VIMEO API CALL FUNCTIONS
+//
+
 const getVideoInfo = async (id) => {
   try {
     return await axios.get(`api/videos/${id}`)
@@ -208,7 +209,11 @@ const displaySearchedVideos = async (query) => {
 }
 
 
-// resond to search
+
+//
+//	SEARCH BAR FUNCTIONS
+//
+
 const handleSearch = (e) => {
   if (e.target.value.length > 0) {
     displaySearchedVideos(e.target.value);
@@ -223,15 +228,12 @@ const debouncedSearch = debounce( (e) => {
 const handleVideoClick = (e) => {
   let videoId = e.target.closest('li').dataset.videoId;
 	//reset cookie time on new video
-	JvimData.seconds = 0;
-	setCookie('jVimSeconds', JvimData.seconds);
-
+	// JvimData.seconds = 0;
+	setCookie('jVimSeconds', 0);
 	deactivateSearch();
   displayVideoInfo(videoId);
 }
 
-
-// search bar activation
 const activateSearch = () => {
 	searchInput.classList.toggle('active');
 	searchInput.focus();
@@ -254,13 +256,22 @@ searchButton.addEventListener('click', toggleSearch);
 searchInput.addEventListener('keyup', (e) => debouncedSearch(e) );
 
 
-// run iniital setup on window load after iframes are populated
+//
+//  INITIAL SETUP FOR NEW WINDOW LOAD
+//
+
 const player = new Vimeo.Player('vimeo-slot', options);
 window.addEventListener('load', (e) => {
 	loadPlayer(options);
   displaySearchedVideos('seattle')
 });
 
+//Listening for the browser window closing and set cookie 14 expiring in 14 days
+window.addEventListener('beforeunload', (e) => {
+  e.preventDefault();
+	setCookie('jVimVideo', JvimData.video);
+	setCookie('jVimSeconds', JvimData.seconds);
+});
 
 // update global object for seconds watched
 player.on('timeupdate', (data) => {
