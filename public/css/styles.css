@@ -56,7 +56,9 @@ input {
   margin-bottom: 2em;
 }
 
-/****** search styles ******/
+/*-------------------------------------*/
+/*          search styles              */
+/*-------------------------------------*/
 .search {
   display: flex;
   width: 100%;
@@ -89,11 +91,13 @@ input {
   cursor: pointer;
 }
 
+/*-------------------------------------*/
+/*         search list styles          */
+/*-------------------------------------*/
 #results-container ul {
   display: flex;
   flex-direction: column;
 }
-
 #results-container li {
   width: 100%;
   background: white;
@@ -102,33 +106,26 @@ input {
   animation: fade-in-up 0.5s ease backwards;
   display: flex;
 }
-
-.title-container {
+#results-container .title-container {
   flex: 1;
   padding: 0.2em;
 }
-
-#results-container h3 {
+#results-container .title-container h3 {
   color: black;
   pointer-events: none;
 }
-
 #results-container li:nth-child(1) {
   animation-delay: 0.1s;
 }
-
 #results-container li:nth-child(2) {
   animation-delay: 0.2s;
 }
-
 #results-container li:nth-child(3) {
   animation-delay: 0.3s;
 }
-
 #results-container li:nth-child(4) {
   animation-delay: 0.4s;
 }
-
 #results-container li:nth-child(5) {
   animation-delay: 0.5s;
 }

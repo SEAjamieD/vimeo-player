@@ -60,7 +60,10 @@ input {
   margin-bottom: 2em;
 }
 
-/****** search styles ******/
+
+/*-------------------------------------*/
+/*          search styles              */
+/*-------------------------------------*/
 .search {
   display: flex;
   width: 100%;
@@ -93,43 +96,42 @@ input {
   }
 }
 
+/*-------------------------------------*/
+/*         search list styles          */
+/*-------------------------------------*/
 
 
-
-#results-container ul {
+#results-container {
+  ul {
   display: flex;
   flex-direction: column;
-}
+  }
+  li {
+    width: 100%;
+    background: white;
+    cursor: pointer;
+    box-shadow: 1px 3px 0.5em 0 rgba(0,0,0,.11);
+    animation: fade-in-up .5s ease backwards;
+    display: flex;
+  }
+  .title-container {
+    flex: 1;
+    padding: .2em;
+    h3 {
+      color: black;
+      pointer-events: none;
+    }
+  }
 
-#results-container li {
-  width: 100%;
-  background: white;
-  cursor: pointer;
-  box-shadow: 1px 3px 0.5em 0 rgba(0,0,0,.11);
-  animation: fade-in-up .5s ease backwards;
-
-  display: flex;
-}
-
-#results-container li + li {
-  // margin-top: 1em;
-}
-
-.title-container {
-  flex: 1;
-  padding: .2em;
-}
-
-#results-container h3 {
-  color: black;
-  pointer-events: none;
-}
-
-@for $i from 1 through 5 {
-  #results-container li:nth-child(#{$i}) {
-    animation-delay: $i * .1s;
+  //animate list in
+  @for $i from 1 through 5 {
+    li:nth-child(#{$i}) {
+      animation-delay: $i * .1s;
+    }
   }
 }
+
+
 
 @keyframes fade-in-up {
   from {
