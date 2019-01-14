@@ -221,8 +221,15 @@ const displaySearchedVideos = async (query) => {
 			imgContainer.setAttribute('class', 'video-thumb');
 
 			let img = new Image();
-			img.src = `https://i.vimeocdn.com/video/${videoId}_100x75.jpg?r=pad`;
 			img.alt = 'video thumbnail';
+			axios.get('https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/' + videoId)
+			  .then(function (response) {
+			    img.src = response.data.thumbnail_url;
+			  })
+			  .catch(function (error) {
+			    img.src=""
+			  });
+
 			imgContainer.appendChild(img);
 
 			li.appendChild(imgContainer);
