@@ -61,6 +61,8 @@ const utility = {
 // Grab elements we need from our index.html
 const videoTitle = document.getElementById('video-title');
 const videoDescription = document.getElementById('video-description');
+const descriptionCard = document.getElementById('description');
+const descriptionButton = document.querySelector('.video-description-container button');
 const searchInput = document.getElementById('search-input');
 const resultsContainer = document.querySelector('#results-container ul');
 const searchButton = document.querySelector('.fa-search');

@@ -101,6 +101,8 @@ input {
 /*        description styles           */
 /*-------------------------------------*/
 .video-description-container {
+  #one {display: block;}
+  #two {display: none;}
   button {
     width: 200px;
     border: none;
@@ -123,6 +125,7 @@ input {
       transform: scale3d(0,1,1);
     }
   }
+
 }
 
 
@@ -173,6 +176,12 @@ input {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 
 /*-------------------------------------*/
 /*            Media Queries            */
@@ -200,12 +209,25 @@ input {
   #vimeo-slot {
     width: 66%;
   }
-  
+
   #results-container {
     width: 33%;
     position: absolute;
     top: -21em;
     right: 0;
   }
+
+  .video-description-container {
+    #one { display: none; }
+    #two { display: block; }
+    & button.collapsed:after {
+      transform: scale3d(1,1,1);
+    }
+  }
+
+  .collapse:not(.show) {
+    display: block;
+  }
+
 
 }

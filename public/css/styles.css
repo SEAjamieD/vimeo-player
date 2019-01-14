@@ -97,6 +97,12 @@ input {
 /*-------------------------------------*/
 /*        description styles           */
 /*-------------------------------------*/
+.video-description-container #one {
+  display: block;
+}
+.video-description-container #two {
+  display: none;
+}
 .video-description-container button {
   width: 200px;
   border: none;
@@ -168,6 +174,11 @@ input {
     transform: translateY(1em);
   }
 }
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
 /*-------------------------------------*/
 /*            Media Queries            */
 /*-------------------------------------*/
@@ -196,6 +207,20 @@ input {
     position: absolute;
     top: -21em;
     right: 0;
+  }
+
+  .video-description-container #one {
+    display: none;
+  }
+  .video-description-container #two {
+    display: block;
+  }
+  .video-description-container button.collapsed:after {
+    transform: scale3d(1, 1, 1);
+  }
+
+  .collapse:not(.show) {
+    display: block;
   }
 }
 
