@@ -44,10 +44,6 @@ input {
   font-style: italic;
 }
 
-#vimeo-slot {
-  border-radius: 0;
-}
-
 .card {
   border: none;
 }
@@ -130,12 +126,18 @@ input {
   animation-delay: 0.5s;
 }
 
+/*-------------------------------------*/
+/*             keyframes               */
+/*-------------------------------------*/
 @keyframes fade-in-up {
   from {
     opacity: 0;
     transform: translateY(1em);
   }
 }
+/*-------------------------------------*/
+/*            Media Queries            */
+/*-------------------------------------*/
 @media screen and (min-width: 40em) {
   .app {
     padding: 0 3em;

@@ -46,11 +46,6 @@ input {
   font-style: italic
 }
 
-
-#vimeo-slot {
-  border-radius: 0;
-}
-
 // accordion
 .card {
   border: none;
@@ -131,6 +126,9 @@ input {
   }
 }
 
+/*-------------------------------------*/
+/*             keyframes               */
+/*-------------------------------------*/
 
 
 @keyframes fade-in-up {
@@ -141,9 +139,11 @@ input {
 }
 
 
+/*-------------------------------------*/
+/*            Media Queries            */
+/*-------------------------------------*/
 
-
-
+// Medium Size Screen
 @media screen and (min-width: 40em) {
   .app {
     padding: 0 3em;
@@ -155,6 +155,7 @@ input {
 
 }
 
+// Large Size Screen
 @media screen and (min-width: 62em) {
   .app {
     width: 100%;
