@@ -60,6 +60,41 @@ input {
 }
 
 /*-------------------------------------*/
+/*      video overlay styles           */
+/*-------------------------------------*/
+#video-over {
+  opacity: 0;
+  display: none;
+}
+#video-over.finished {
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 0.85;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fade-in 0.3s ease forwards;
+}
+#video-over.finished span {
+  color: white;
+  font-size: 2em;
+}
+#video-over.finished button {
+  border: none;
+  background: transparent;
+  outline: 0;
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/*-------------------------------------*/
 /*          search styles              */
 /*-------------------------------------*/
 .search {

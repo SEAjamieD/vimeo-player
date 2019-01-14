@@ -66,6 +66,8 @@ const descriptionButton = document.querySelector('.video-description-container b
 const searchInput = document.getElementById('search-input');
 const resultsContainer = document.querySelector('#results-container ul');
 const searchButton = document.querySelector('.fa-search');
+const videoOverlay = document.getElementById('video-over');
+const dismissOverlay = document.querySelector('#video-over button');
 
 
 // establish a global object for our app
@@ -74,7 +76,8 @@ JvimData = {
 	video: utility.getCookieVideo(),
 	options: {
 	  id: utility.getCookieVideo(),
-	  loop: false
+	  loop: false,
+		autoplay: true,
 	}
 };
 
@@ -88,7 +91,9 @@ player.on('timeupdate', (data) => {
 
 // alert when video is finished
 player.on('ended', () => {
-  alert('The video has ended - thanks for watching!');
+	JvimData.seconds = 0;
+	utility.setCookie('jVimSeconds', JvimData.seconds);
+  videoOverlay.classList.add('finished');
 });
 
 // set the video position
@@ -137,7 +142,7 @@ const getVideoInfo = async (id) => {
 }
 
 const displayVideo = async (id) => {
-
+	videoOverlay.classList.remove('finished');
   const video = await getVideoInfo(id);
 
   if (video.data) {
@@ -271,6 +276,10 @@ const toggleSearch = () => {
 
 searchButton.addEventListener('click', toggleSearch);
 searchInput.addEventListener('keyup', (e) => debouncedSearch(e) );
+
+dismissOverlay.addEventListener('click', () => {
+	videoOverlay.classList.remove('finished');
+});
 
 // Window Listening for a load/refresh
 window.addEventListener('load', (e) => {
