@@ -137,6 +137,7 @@ input {
 }
 .video-description-container #two {
   display: none;
+  pointer-events: none;
 }
 .video-description-container button {
   width: 200px;

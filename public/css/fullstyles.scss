@@ -137,7 +137,10 @@ input {
 /*-------------------------------------*/
 .video-description-container {
   #one {display: block;}
-  #two {display: none;}
+  #two {
+    display: none;
+    pointer-events: none;
+  }
   button {
     width: 200px;
     border: none;
