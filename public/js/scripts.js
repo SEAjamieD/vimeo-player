@@ -1,58 +1,59 @@
-
 //
 //  UTILITY FUNCTIONS
 //
-
-// david walsh debounce - https://davidwalsh.name/javascript-debounce-function
-function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
+const utility = {
+	// david walsh debounce - https://davidwalsh.name/javascript-debounce-function
+	debounce: (func, wait, immediate) => {
+		var timeout;
+		return function() {
+			var context = this, args = arguments;
+			var later = function() {
+				timeout = null;
+				if (!immediate) func.apply(context, args);
+			};
+			var callNow = immediate && !timeout;
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+			if (callNow) func.apply(context, args);
 		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-};
+	},
 
-// set cookies
-const setCookie = (name, value) => {
-	let today = new Date();
-	let twoWeeks = new Date(Date.now() + 12096e5);
-	twoWeeks = twoWeeks.toUTCString();
-	document.cookie = `${name}=${value}; expires=${twoWeeks};`
+	// set cookies
+	setCookie: (name, value) => {
+		let today = new Date();
+		let twoWeeks = new Date(Date.now() + 12096e5);
+		twoWeeks = twoWeeks.toUTCString();
+		document.cookie = `${name}=${value}; expires=${twoWeeks};`
+	},
+
+	//Check for existing time set cookie and set the player to that time
+	getCookieSeconds: () => {
+	  let seconds = 0;
+	  if ( document.cookie.split(';').filter((item) => item.includes('jVimSeconds=')).length ) {
+	    seconds = document.cookie.replace(/(?:(?:^|.*;\s*)jVimSeconds\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+	    seconds = seconds >= 0 ? seconds : 0;
+	  }
+	  return seconds;
+	},
+
+	//Check for existing video id set cookie and set the player to that video
+	getCookieVideo: () => {
+	  let video = 59777392;
+	  if ( document.cookie.split(';').filter((item) => item.includes('jVimVideo=')).length ) {
+	    video = document.cookie.replace(/(?:(?:^|.*;\s*)jVimVideo\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+	    if (video !== 'undefined') {
+	      video = video;
+	    } else {
+	      video = 59777392;
+	    }
+	  }
+	  return video;
+	}
+
 }
 
-
-//Check for existing time set cookie and set the player to that time
-const getCookieSeconds = () => {
-  let seconds = 0;
-  if ( document.cookie.split(';').filter((item) => item.includes('jVimSeconds=')).length ) {
-    seconds = document.cookie.replace(/(?:(?:^|.*;\s*)jVimSeconds\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    seconds = seconds >= 0 ? seconds : 0;
-  }
-  return seconds;
-}
-
-//Check for existing video id set cookie and set the player to that video
-const getCookieVideo = () => {
-  let video = 59777392;
-  if ( document.cookie.split(';').filter((item) => item.includes('jVimVideo=')).length ) {
-    video = document.cookie.replace(/(?:(?:^|.*;\s*)jVimVideo\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    if (video !== 'undefined') {
-      video = video;
-    } else {
-      video = 59777392;
-    }
-  }
-  return video;
-}
-
-
+/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
 //
 //  App Scripts
 //
@@ -67,10 +68,10 @@ const searchButton = document.querySelector('.fa-search');
 
 // establish a global object for our app
 JvimData = {
-	seconds: getCookieSeconds(),
-	video: getCookieVideo(),
+	seconds: utility.getCookieSeconds(),
+	video: utility.getCookieVideo(),
 	options: {
-	  id: getCookieVideo(),
+	  id: utility.getCookieVideo(),
 	  loop: false
 	}
 };
@@ -108,12 +109,12 @@ const setVimeoPosition = (seconds) => {
 // Initial load of player for first visit or refreshes
 const loadPlayer = async (options) => {
 	const video = await getVideoInfo(JvimData.options.id);
-	setCookie('jVimVideo', JvimData.options.id);
+	utility.setCookie('jVimVideo', JvimData.options.id);
 		if (video.data) {
 			videoTitle.innerText = video.data.name;
 			videoDescription.innerText = video.data.description;
 			//update video to cookie time if exists
-			let currentVidTime = getCookieSeconds();
+			let currentVidTime = utility.getCookieSeconds();
 			setVimeoPosition(currentVidTime);
 		} else {
 			// handle error
@@ -133,13 +134,13 @@ const getVideoInfo = async (id) => {
   }
 }
 
-const displayVideoInfo = async (id) => {
+const displayVideo = async (id) => {
 
   const video = await getVideoInfo(id);
 
   if (video.data) {
 		JvimData.video = id;
-		setCookie('jVimVideo', JvimData.video);
+		utility.setCookie('jVimVideo', JvimData.video);
 
     player.loadVideo(id).then(function(id) {
       videoTitle.innerText = video.data.name;
@@ -230,7 +231,7 @@ const handleSearch = (e) => {
   }
 }
 
-const debouncedSearch = debounce( (e) => {
+const debouncedSearch = utility.debounce( (e) => {
   handleSearch(e);
 }, 300);
 
@@ -239,9 +240,9 @@ const handleVideoClick = (e) => {
   let videoId = e.target.closest('li').dataset.videoId;
 	//reset cookie time on new video
 	JvimData.seconds = 0;
-	setCookie('jVimSeconds', JvimData.seconds);
+	utility.setCookie('jVimSeconds', JvimData.seconds);
 	deactivateSearch();
-  displayVideoInfo(videoId);
+  displayVideo(videoId);
 }
 
 const activateSearch = () => {
@@ -275,6 +276,6 @@ window.addEventListener('load', (e) => {
 //Listening for the browser window closing and set cookies
 window.addEventListener('beforeunload', (e) => {
   e.preventDefault();
-	setCookie('jVimVideo', JvimData.video);
-	setCookie('jVimSeconds', JvimData.seconds);
+	utility.setCookie('jVimVideo', JvimData.video);
+	utility.setCookie('jVimSeconds', JvimData.seconds);
 });
