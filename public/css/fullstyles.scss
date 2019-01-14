@@ -6,6 +6,9 @@
   --main-font: 'Quicksand', sans-serif;
 }
 
+* {
+  transition: all .35s linear;
+}
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -180,9 +183,8 @@ input {
   .app {
     padding: 0 3em;
   }
-
-  #vimeo-slot {
-    margin: 2em auto;
+  .search {
+    height: 3em;
   }
 
 }
@@ -193,6 +195,17 @@ input {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
+  }
+
+  #vimeo-slot {
+    width: 66%;
+  }
+  
+  #results-container {
+    width: 33%;
+    position: absolute;
+    top: -21em;
+    right: 0;
   }
 
 }
