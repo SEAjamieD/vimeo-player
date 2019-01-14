@@ -128,7 +128,9 @@ const loadPlayer = async (options) => {
 	utility.setCookie('jVimVideo', JvimData.options.id);
 		if (video.data) {
 			videoTitle.innerText = video.data.name;
-			videoDescription.innerText = video.data.description;
+			videoDescription.innerText = video.data.description
+																		? video.data.description
+																		: "This video does not have a description."
 			//update video to cookie time if exists
 			let currentVidTime = utility.getCookieSeconds();
 			setVimeoPosition(currentVidTime);
@@ -160,7 +162,9 @@ const displayVideo = async (id) => {
 
     player.loadVideo(id).then(function(id) {
       videoTitle.innerText = video.data.name;
-      videoDescription.innerText = video.data.description;
+			videoDescription.innerText = video.data.description
+																		? video.data.description
+																		: "This video does not have a description."
 
     }).catch(function(error) {
       switch(error.name) {
